@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <AnimateCC animationName="lishtm5" />
+        <AnimateCC animationName="approachOne" />
       </div>
     );
   }
