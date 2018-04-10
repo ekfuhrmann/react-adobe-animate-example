@@ -990,7 +990,7 @@
   p.nominalBounds = new cjs.Rectangle(-114.1, -68.3, 234, 131);
 
   // stage content:
-  (lib.scene1animationv2 = function(mode, startPosition, loop) {
+  (lib.approachOne = function(mode, startPosition, loop) {
     if (loop == null) {
       loop = false;
     }
@@ -1958,6 +1958,52 @@
     webfonts: {},
     manifest: [],
     preloads: []
+  };
+  (lib.Stage = function(canvas) {
+    createjs.Stage.call(this, canvas);
+  }).prototype = p = new createjs.Stage();
+
+  an.bootcompsLoaded = an.bootcompsLoaded || [];
+
+  if (!an.bootstrapListeners) {
+    an.bootstrapListeners = [];
+  }
+
+  an.bootstrapCallback = function(fnCallback) {
+    an.bootstrapListeners.push(fnCallback);
+    if (an.bootcompsLoaded.length > 0) {
+      for (var i = 0; i < an.bootcompsLoaded.length; ++i) {
+        fnCallback(an.bootcompsLoaded[i]);
+      }
+    }
+  };
+
+  an.compositions = an.compositions || {};
+  an.compositions['approachOne'] = {
+    // <- you can set this id on your own. Just make sure to have it unique for every animation
+    getStage: function() {
+      return exportRoot.getStage();
+    },
+    getLibrary: function() {
+      return lib;
+    },
+    getSpriteSheet: function() {
+      return ss;
+    },
+    getImages: function() {
+      return img;
+    }
+  };
+
+  an.compositionLoaded = function(id) {
+    an.bootcompsLoaded.push(id);
+    for (var j = 0; j < an.bootstrapListeners.length; j++) {
+      an.bootstrapListeners[j](id);
+    }
+  };
+
+  an.getComposition = function(id) {
+    return an.compositions[id];
   };
 })(
   (libOne = libOne || {}),
